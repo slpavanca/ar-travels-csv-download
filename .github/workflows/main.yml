@@ -24,4 +24,7 @@ jobs:
           playwright install chromium
 
       - name: Run script
-        run: python arcvcsscript.py
+        run: |
+          cd ar-travels-csv-download
+          python arcsvscript.py
+
