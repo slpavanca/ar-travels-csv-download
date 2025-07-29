@@ -5,18 +5,18 @@ def run():
         browser = p.chromium.launch(headless=True)
         page = browser.new_page()
 
-        # Go to a working URL
-        page.goto("https://news.ycombinator.com")
+        print("🔗 Navigating to Hacker News")
+        page.goto("https://news.ycombinator.com/")
 
-        # Wait for headlines to be visible
-        page.wait_for_selector("a.storylink")
+        # ✅ Correct selector: now it's 'a.titlelink'
+        page.wait_for_selector("a.titlelink")
 
-        # Extract the first 5 headlines
-        headlines = page.query_selector_all("a.storylink")[:5]
-        for i, h in enumerate(headlines, start=1):
+        headlines = page.query_selector_all("a.titlelink")
+
+        print("📰 Top 5 Hacker News Headlines:")
+        for i, h in enumerate(headlines[:5], start=1):
             print(f"{i}. {h.inner_text()}")
 
         browser.close()
 
-if __name__ == "__main__":
-    run()
+run()
