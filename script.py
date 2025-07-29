@@ -13,7 +13,7 @@ def run():
         page.wait_for_load_state("domcontentloaded")
 
         # Add this: ensure body has loaded
-        page.wait_for_selector("body", timeout=60000)
+        # page.wait_for_selector("body", timeout=60000)
 
         
         page.wait_for_selector('input[name="login"]', timeout=60000)  # Wait 15s max
