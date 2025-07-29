@@ -27,7 +27,7 @@ jobs:
           sudo apt update
           sudo apt install -y wget unzip
           wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb || true  # <- Ignore exit code
           CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
           wget -q "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" -O LATEST_RELEASE
           CHROMEDRIVER_VERSION=$(cat LATEST_RELEASE)
@@ -35,6 +35,7 @@ jobs:
           unzip chromedriver_linux64.zip
           sudo mv chromedriver /usr/local/bin/
           sudo chmod +x /usr/local/bin/chromedriver
+
 
       - name: Run script
         run: python script.py
