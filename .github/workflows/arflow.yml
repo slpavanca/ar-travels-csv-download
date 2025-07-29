@@ -1,9 +1,9 @@
-name: run-script
+name: AR Daily Script (Selenium Version)
 
 on:
+  schedule:
+    - cron: '30 23 * * *'  # 5:00 AM IST daily
   workflow_dispatch:
-  push:
-    branches: [main]
 
 jobs:
   run-script:
@@ -11,17 +11,18 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
-      - name: Setup Python
-        uses: actions/setup-python@v5
+      - name: Set up Python
+        uses: actions/setup-python@v4
         with:
           python-version: '3.10'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt
+        run: |
+          pip install -r requirements.txt
 
-      - name: Install Chrome & Chromedriver
+      - name: Install Google Chrome and Chromedriver
         run: |
           sudo apt update
           sudo apt install -y wget unzip
@@ -36,8 +37,4 @@ jobs:
           sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Run script
-        env:
-          DISPLAY: ":99"
-        run: |
-          echo "🏁 Running script.py"
-          python script.py
+        run: python script.py
