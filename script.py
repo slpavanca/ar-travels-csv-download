@@ -9,19 +9,22 @@ def run():
         context = browser.new_context(accept_downloads=True)
         page = context.new_page()
 
-        page.goto("https://arll.artravells.in/", timeout=60000)  # increase timeout
-        page.wait_for_load_state("domcontentloaded")
+        page.goto("https://arll.artravells.in/", timeout=60000)
 
-        # Add this: ensure body has loaded
-        # page.wait_for_selector("body", timeout=60000)
+        # Wait for iframe to appear
+        print("⏳ Waiting for iframe...")
+        frame_element = page.wait_for_selector('iframe', timeout=30000)
+        frame = frame_element.content_frame()
 
-        
-        page.wait_for_selector('input[name="login"]', timeout=60000)  # Wait 15s max
-        page.fill('input[name="login"]', 'mahesh')
+        # Now wait inside iframe for login input
+        print("⏳ Waiting for login input inside iframe...")
+        frame.wait_for_selector('input[name="login"]', timeout=30000)
+        print("✅ Login input found")
 
-        
-        page.wait_for_selector('input[name="password"]', timeout=60000)  # Wait 15s max
-        page.fill('input[name="password"]', '123456')
+        # Fill login form inside iframe
+        frame.fill('input[name="login"]', 'mahesh')
+        frame.fill('input[name="password"]', '123456')
+
          
         page.click('input#login_button')
         page.wait_for_load_state("networkidle")
