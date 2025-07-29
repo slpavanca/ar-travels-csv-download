@@ -1,4 +1,4 @@
-name: Run Daily Playwright Script
+name: AR Daily Playwright Script
 
 on:
   schedule:
