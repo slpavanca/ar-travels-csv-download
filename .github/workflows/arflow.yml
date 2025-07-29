@@ -24,5 +24,6 @@ jobs:
           playwright install chromium
 
       - name: Run script
+        working-directory: ${{ github.workspace }}
         run: python arcsvscript.py
 
