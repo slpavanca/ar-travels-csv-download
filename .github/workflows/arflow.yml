@@ -29,5 +29,5 @@ jobs:
           ls -R ${{ github.workspace }}
 
       - name: Run script
-        run: python ${{ github.workspace }}/arcsvscript.py
+        run: python arcsvscript.py
 
