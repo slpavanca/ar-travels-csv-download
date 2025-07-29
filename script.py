@@ -13,14 +13,14 @@ def run():
         page.wait_for_load_state("domcontentloaded")
 
         # Add this: ensure body has loaded
-        page.wait_for_selector("body", timeout=15000)
+        page.wait_for_selector("body", timeout=60000)
 
         
-        page.wait_for_selector('input[name="login"]', timeout=20000)  # Wait 15s max
+        page.wait_for_selector('input[name="login"]', timeout=60000)  # Wait 15s max
         page.fill('input[name="login"]', 'mahesh')
 
         
-        page.wait_for_selector('input[name="password"]', timeout=20000)  # Wait 15s max
+        page.wait_for_selector('input[name="password"]', timeout=60000)  # Wait 15s max
         page.fill('input[name="password"]', '123456')
          
         page.click('input#login_button')
