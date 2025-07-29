@@ -9,14 +9,18 @@ def run():
         context = browser.new_context(accept_downloads=True)
         page = context.new_page()
 
-        page.goto("https://arll.artravells.in/")
+        page.goto("https://arll.artravells.in/", timeout=60000)  # increase timeout
+        page.wait_for_load_state("domcontentloaded")
+
+        # Add this: ensure body has loaded
+        page.wait_for_selector("body", timeout=15000)
 
         
-        page.wait_for_selector('input[name="login"]', timeout=15000)  # Wait 15s max
+        page.wait_for_selector('input[name="login"]', timeout=20000)  # Wait 15s max
         page.fill('input[name="login"]', 'mahesh')
 
         
-        page.wait_for_selector('input[name="password"]', timeout=15000)  # Wait 15s max
+        page.wait_for_selector('input[name="password"]', timeout=20000)  # Wait 15s max
         page.fill('input[name="password"]', '123456')
          
         page.click('input#login_button')
