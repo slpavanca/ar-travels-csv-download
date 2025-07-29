@@ -28,6 +28,9 @@ jobs:
           echo "Workspace path: ${{ github.workspace }}"
           ls -R ${{ github.workspace }}
 
+      - name: Debug - list files
+        run: ls -la
+    
       - name: Run script
-        run: python arcsvscript.py
+        run: python script.py
 
