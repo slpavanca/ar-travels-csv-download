@@ -1,9 +1,9 @@
-name: AR Daily Playwright Script
+name: run-script
 
 on:
-  schedule:
-    - cron: '30 23 * * *'  # 5:00 AM IST
   workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
   run-script:
@@ -11,19 +11,33 @@ jobs:
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Setup Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Install Chrome & Chromedriver
         run: |
-          pip install -r requirements.txt
-          playwright install chromium
+          sudo apt update
+          sudo apt install -y wget unzip
+          wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+          sudo apt install -y ./google-chrome-stable_current_amd64.deb
+          CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+')
+          wget -q "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION" -O LATEST_RELEASE
+          CHROMEDRIVER_VERSION=$(cat LATEST_RELEASE)
+          wget "https://chromedriver.storage.googleapis.com/${CHROMEDRIVER_VERSION}/chromedriver_linux64.zip"
+          unzip chromedriver_linux64.zip
+          sudo mv chromedriver /usr/local/bin/
+          sudo chmod +x /usr/local/bin/chromedriver
 
       - name: Run script
-        run: python script.py
-
-
+        env:
+          DISPLAY: ":99"
+        run: |
+          echo "🏁 Running script.py"
+          python script.py
