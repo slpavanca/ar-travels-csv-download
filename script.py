@@ -5,13 +5,20 @@ import os
 
 def run():
     with sync_playwright() as p:
-        browser = p.chromium.launch(headless=True)
+        browser = p.chromium.launch(headless=False)
         context = browser.new_context(accept_downloads=True)
         page = context.new_page()
 
         page.goto("https://arll.artravells.in/")
+
+        
+        page.wait_for_selector('input[name="login"]', timeout=15000)  # Wait 15s max
         page.fill('input[name="login"]', 'mahesh')
+
+        
+        page.wait_for_selector('input[name="password"]', timeout=15000)  # Wait 15s max
         page.fill('input[name="password"]', '123456')
+         
         page.click('input#login_button')
         page.wait_for_load_state("networkidle")
 
