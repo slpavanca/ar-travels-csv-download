@@ -23,5 +23,11 @@ jobs:
           pip install -r requirements.txt
           playwright install chromium
 
+      - name: Debug - Show workspace files
+        run: |
+          echo "Workspace path: ${{ github.workspace }}"
+          ls -R ${{ github.workspace }}
+
       - name: Run script
         run: python ${{ github.workspace }}/arcsvscript.py
+
